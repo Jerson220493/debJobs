@@ -1,0 +1,8 @@
+
+#dependencias necesarias
+npm install --save dotenv connect-mongo mongoose shortid slug session cookie-parser
+
+npm i --save express-session
+
+# instalar dependencias de webpack y babel
+npm i --save-dev @babel/core @babel/preset-env babel-loader webpack webpack-cli
