@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./index",
     "start": "concurrently \"npm run dev\" \"npm run watch\" ",
-    "watch": "webpack --W --mode development"
+    "watch": "webpack -w --mode development"
   },
   "author": "Jerson Gomez Duarte",
   "license": "ISC",

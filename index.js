@@ -8,10 +8,15 @@ const router = require('./routes'); // importamos el archivo de routes que habia
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const bodyParser = require('body-parser');
 
 require('dotenv').config({path : 'variables.env'});
 
 const app = express(); // declarar la variable del servidor
+
+// habilitar body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : true}));
 
 app.engine('handlebars', 
     exphbs.engine({
