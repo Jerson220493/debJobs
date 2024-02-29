@@ -6,3 +6,9 @@ npm i --save express-session
 
 # instalar dependencias de webpack y babel
 npm i --save-dev @babel/core @babel/preset-env babel-loader webpack webpack-cli
+
+# libreria para encryptar passwords
+npm install --save bcrypt
+
+# librerias para las validaciones
+npm i --save connect-flash express-validator

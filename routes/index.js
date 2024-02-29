@@ -1,7 +1,8 @@
 const express = require('express'); // importamos express
 const router = express.Router(); // guardamos en la constante router la funcionalidad de Router de la clase express
-const homeController = require('../controllers/homeController')
-const vacantesController = require('../controllers/vacantesController')
+const homeController = require('../controllers/homeController');
+const vacantesController = require('../controllers/vacantesController');
+const usuariosController = require('../controllers/usuariosController');
 
 module.exports = () =>{
     router.get('/', homeController.mostrarTrabajos)
@@ -20,6 +21,13 @@ module.exports = () =>{
     // editar vacante
     router.get('/vacantes/editar/:url', vacantesController.formEditarVacante);
     router.post('/vacantes/editar/:url', vacantesController.editarVacante);
+
+    // crear cuentas
+    router.get('/crear-cuenta', usuariosController.formCrearCuenta);
+    router.post('/crear-cuenta', 
+        usuariosController.validarRegistro,
+        usuariosController.crearUsuario
+    );
 
     return router;
 

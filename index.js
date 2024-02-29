@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
+const flash = require('connect-flash');
 
 require('dotenv').config({path : 'variables.env'});
 
@@ -17,6 +19,9 @@ const app = express(); // declarar la variable del servidor
 // habilitar body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
+
+// validacion de campos 
+app.use(expressValidator());
 
 app.engine('handlebars', 
     exphbs.engine({
@@ -38,7 +43,16 @@ app.use(session({
     store : MongoStore.create({
         mongoUrl : process.env.DATABASE
     })
-}))
+}));
+
+// alertar 
+app.use(flash());
+
+// crear el middleware
+app.use((req, res, next) => {
+    res.locals.mensajes = req.flash();
+    next();
+})
 
 app.use('/', router()); // marcamos la ruta principal
 
