@@ -29,6 +29,13 @@ exports.validarRegistro = (req, res, next) =>{
 
     if(errores){
         // si hay errores
+        req.flash('error', errores.map(error => error.msg));
+        res.render('crear-cuenta', {
+            nombrePagina : 'Crea tu cuenta en devjobs',
+            tagline : 'Comienza a publicar tus vacantes, solo debes crear una cuenta',
+            mensajes : req.flash(),
+        })
+        return;
     }
 
     // si la validacion es correcta
@@ -40,11 +47,18 @@ exports.validarRegistro = (req, res, next) =>{
 exports.crearUsuario = async(req, res, next) => {
     // crear el usuario
     const usuario = new Usuarios(req.body);
-    
-    const nuevoUsuario = await usuario.save();
+    try {
+        await usuario.save();
+        res.redirect('/iniciar-sesion');
+    } catch (error) {
+        req.flash('error', error)
+        res.redirect('/crear-cuenta')
+    }
 
-    if (!nuevoUsuario) return next();
+}
 
-    res.redirect('/iniciar-session');
-
+exports.formIniciarSesion = (req, res) => {
+    res.render('iniciar-sesion', {
+        nombrePagina : 'Iniciar Sesión devjobs'
+    })
 }
