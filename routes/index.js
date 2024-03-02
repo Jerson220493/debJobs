@@ -3,15 +3,18 @@ const router = express.Router(); // guardamos en la constante router la funciona
 const homeController = require('../controllers/homeController');
 const vacantesController = require('../controllers/vacantesController');
 const usuariosController = require('../controllers/usuariosController');
+const authController = require('../controllers/authController');
 
 module.exports = () =>{
     router.get('/', homeController.mostrarTrabajos)
 
     // crear vacantes
     router.get('/vacantes/nueva', 
+        authController.verificarUsuario,
         vacantesController.formularioNuevaVacante
     )
     router.post('/vacantes/nueva',
+        authController.verificarUsuario,
         vacantesController.agregarVacante
     )
 
@@ -19,8 +22,14 @@ module.exports = () =>{
     router.get('/vacantes/:url', vacantesController.mostrarVacante)
 
     // editar vacante
-    router.get('/vacantes/editar/:url', vacantesController.formEditarVacante);
-    router.post('/vacantes/editar/:url', vacantesController.editarVacante);
+    router.get('/vacantes/editar/:url', 
+        authController.verificarUsuario,
+        vacantesController.formEditarVacante
+    );
+    router.post('/vacantes/editar/:url', 
+        authController.verificarUsuario, 
+        vacantesController.editarVacante
+    );
 
     // crear cuentas
     router.get('/crear-cuenta', usuariosController.formCrearCuenta);
@@ -30,7 +39,15 @@ module.exports = () =>{
     );
 
     // autenticar usuarios
-    router.get('/iniciar-sesion', usuariosController.formIniciarSesion)
+    router.get('/iniciar-sesion', usuariosController.formIniciarSesion);
+    router.post('/iniciar-sesion', authController.autenticarUsuario);
+
+
+    // panel de administracion
+    router.get('/administracion', 
+        authController.verificarUsuario,
+        authController.mostrarPanel
+    );
 
     return router;
 

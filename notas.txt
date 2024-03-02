@@ -12,3 +12,6 @@ npm install --save bcrypt
 
 # librerias para las validaciones
 npm i --save connect-flash express-validator
+
+# libreria para el passport y la autenticacion
+npm i --save passport passport-local
