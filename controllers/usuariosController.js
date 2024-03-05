@@ -67,7 +67,9 @@ exports.formIniciarSesion = (req, res) => {
 exports.formEditarPerfil = (req, res) => {
     res.render('editar-perfil', {
         nombrePagina : 'Edita tu perfil en devjobs',
-        usuario : req.user.toObject()
+        usuario : req.user.toObject(),
+        cerrarSesion : true,
+        nombre : req.user.nombre,
     })
 }
 
@@ -92,8 +94,34 @@ exports.editarPerfil = async(req, res, next) => {
     } catch (error) {
         
     }
+}
 
 
+// sanitizar y validar el formualario para editar perfiles
+exports.validarPerfil = (req, res, next) => {
+    // sanitizar 
+    req.sanitizeBody('nombre').escape();
+    req.sanitizeBody('email').escape();
+    if (req.body.password) {
+        req.sanitizeBody('password').escape();
+    }
 
+    // validar
+    req.checkBody('nombre', 'el nombre no puede ir vacio').notEmpty();
+    req.checkBody('email', 'el correo no puede ir vacio').notEmpty();
+
+    const errores = req.validationErrors();
+    if (errores) {
+        req.flash('error', errores.map(error => error.msg))
+        res.render('editar-perfil', {
+            nombrePagina : 'Edita tu perfil en devjobs',
+            usuario : req.user.toObject(),
+            cerrarSesion : true,
+            nombre : req.user.nombre,
+            mensajes : req.flash()
+        })
+        return
+    }
+    next(); // todo bien 
 
 }
