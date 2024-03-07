@@ -1,5 +1,8 @@
 const { set } = require("mongoose");
 
+import axios from "axios";
+import Swal from "sweetalert2";
+
 document.addEventListener('DOMContentLoaded', ()=>{
     const skills = document.querySelector('.lista-conocimientos');
 
@@ -15,9 +18,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
         // una vez que estamos en editar llmar la funcion
         skillsSeleccionados();
-
-
     }
+
+    const vacantesListado = document.querySelector('.panel-administracion');
+    if (vacantesListado) {
+        vacantesListado.addEventListener('click', accionesListado)
+    }
+
 })
 
 const skills = new Set();
@@ -63,3 +70,47 @@ const limpiarAlertas = () => {
         }
     }, 2000)
 }
+
+// eliminar vacantes
+const accionesListado = e => {
+    console.log(e.target.dataset);
+    e.preventDefault();
+    if (e.target.dataset.eliminar) {
+
+        // eliminar por axios
+        Swal.fire({
+            title : '¿Confirmar eliminación?',
+            text : 'Una vez eliminada no se puede recuperar',
+            type : 'warning',
+            showCancelButton : true,
+            confirmButtonColor : '#3085d6',
+            cancelButtonColor : '#d33',
+            confirmButtonText : 'Si eliminar',
+            cancelButtonText: 'No, cancelar'
+        }).then((result) => {
+            if (result.value) {
+
+                // enviar peticion con axios
+                const url = `${location.origin}/vacantes/eliminar/${e.target.dataset.eliminar}`
+
+                //axios para eliminar products
+                axios.delete(url, {params : {url} })
+                    .then(function(respuesta){
+                        if (respuesta.status === 200) {
+                            Swal.fire(
+                                'Eliminado',
+                                respuesta.data,
+                                'success'
+                            )
+
+                            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement)
+                        }
+                    })
+            }
+        })
+
+    }else{
+        // window.location.href = e.target.href
+    }
+}
+

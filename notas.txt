@@ -15,3 +15,6 @@ npm i --save connect-flash express-validator
 
 # libreria para el passport y la autenticacion
 npm i --save passport passport-local
+
+# instalar librerias para eliminar y mostrar mensaje
+npm install  --save axios sweetalert2

@@ -106,3 +106,8 @@ exports.validarVacante = (req, res, next) => {
     next();
 
 }
+
+exports.eliminarVacante = async (req, res, next) => {
+    const { id } = req.params;
+    res.status(200).send('Vacante eliminada correctamente')
+}
