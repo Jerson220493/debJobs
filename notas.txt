@@ -18,3 +18,7 @@ npm i --save passport passport-local
 
 # instalar librerias para eliminar y mostrar mensaje
 npm install  --save axios sweetalert2
+
+# dependencia para subir imagenes
+npm i --save multer
+

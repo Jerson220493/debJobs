@@ -106,11 +106,18 @@ const accionesListado = e => {
                             e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement)
                         }
                     })
+                    .catch(() => {
+                        Swal.fire({
+                            type : 'error',
+                            title : 'Hubo un error',
+                            text : 'No se pudo eliminar'
+                        })
+                    })
             }
         })
 
-    }else{
-        // window.location.href = e.target.href
+    }else if (e.target.tagName === 'A'){
+        window.location.href = e.target.href
     }
 }
 
