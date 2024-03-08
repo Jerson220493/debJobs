@@ -1,20 +1,17 @@
-const {  mongoose } = require("mongoose");
-// const Vacante = require('../models/Vacantes');
+const mongoose = require('mongoose');
 const Vacante = mongoose.model('Vacante');
 
-exports.mostrarTrabajos = async(req, res, next) => {
+exports.mostrarTrabajos = async (req, res, next) => {
 
-    const vacantes = await Vacante.find().lean();
+    const vacantes = await Vacante.find();
 
-    if (!vacantes) return next();
-
-    console.log(vacantes);
+    if(!vacantes) return next();
 
     res.render('home', {
-        nombrePagina : 'debJobs',
-        tagline : 'Encuentra y publica trabajos para desarrolladores web',
-        barra : true,
-        botton : true,
+        nombrePagina : 'devJobs',
+        tagline: 'Encuentra y Pública Trabajos para Desarrolladores Web',
+        barra: true,
+        boton: true,
         vacantes
     })
 }
